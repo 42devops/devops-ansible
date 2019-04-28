@@ -3,8 +3,8 @@
   hosts: all
   roles:
     - common
-    - sec_os
-    - sec_ssh
+    # - sec_os
+    # - sec_ssh
     - node_exporter
     - blackbox_exporter
     - prometheus

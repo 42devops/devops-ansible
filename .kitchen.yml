@@ -29,8 +29,8 @@ verifier:
   sudo: true
   inspec_tests:
     - test/integration/default
-    - https://github.com/dev-sec/tests-os-hardening
-    - https://github.com/dev-sec/ssh-baseline
+    # - https://github.com/dev-sec/tests-os-hardening
+    # - https://github.com/dev-sec/ssh-baseline
 
 platforms:
   - name: centos7-ansible-latest
