@@ -1,0 +1,45 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+  privileged: true
+  http_proxy: <%= ENV['http_proxy'] || nil %>
+  https_proxy: <%= ENV['https_proxy'] || nil %>
+  forward:
+    - 9115
+    - 9090
+    - 9100
+    - 9093
+
+provisioner:
+  hosts: all
+  name: ansible_playbook
+  roles_path: roles
+  require_ansible_repo: false
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_verbose: true
+  ansible_diff: true
+  playbook: test/integration/default/default.yml
+  http_proxy: <%= ENV['http_proxy'] || nil %>
+  https_proxy: <%= ENV['https_proxy'] || nil %>
+
+verifier:
+  name: inspec
+  sudo: true
+  inspec_tests:
+    - test/integration/default
+    - https://github.com/dev-sec/tests-os-hardening
+    - https://github.com/dev-sec/ssh-baseline
+
+platforms:
+  - name: centos7-ansible-latest
+    driver:
+      image: rndmh3ro/docker-centos7-ansible:latest
+      platform: centos
+      run_command: /sbin/init
+      provision_command:
+        - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+        - systemctl enable sshd.service
+suites:
+  - name: default

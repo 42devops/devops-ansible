@@ -1,0 +1,40 @@
+---
+- name: create blackbox_exporter directories
+  file:
+    path: "{{ blackbox_exporter_root_dir }}"
+    state: directory
+
+- name: download  blackbox_exporter package
+  unarchive: src="files/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz" dest="/tmp"
+
+- name: propagate blackbox exporter binary
+  copy:
+    src: "/tmp/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64/blackbox_exporter"
+    dest: "{{ blackbox_exporter_root_dir }}/blackbox_exporter"
+    mode: 0755
+    remote_src: yes
+  notify:
+    - restart blackbox exporter
+
+- name: configure blackbox exporter
+  template:
+    src: blackbox_exporter.yml.j2
+    dest: /etc/blackbox_exporter.yml
+    mode: 0644
+  notify:
+    - restart blackbox exporter
+
+- name: create systemd service unit
+  template:
+    src: blackbox_exporter.service.j2
+    dest: /etc/systemd/system/blackbox_exporter.service
+    mode: 0644
+  notify:
+    - restart blackbox exporter
+
+- name: ensure blackbox_exporter service is enabled
+  systemd:
+    name: blackbox_exporter
+    daemon_reload: true
+    enabled: true
+    state: started

@@ -1,0 +1,5 @@
+---
+- hosts: all
+  roles:
+    - node_exporter
+    - blackbox_exporter

@@ -1,0 +1,42 @@
+---
+blackbox_exporter_needto_install: True
+
+blackbox_exporter_version: "0.13.0"
+
+blackbox_exporter_root_dir: "/opt/dss/prom/blackbox_exporter"
+
+blackbox_exporter_web_listen_address: "0.0.0.0:9115"
+
+blackbox_exporter_ports: 9115
+
+blackbox_exporter_cli_flags:
+  log.level: "info"
+
+blackbox_exporter_configuration_modules:
+  http_2xx:
+    prober: http
+    http:
+      tls_config:
+        insecure_skip_verify: true
+  http_4xx:
+    prober: http
+    http:
+      tls_config:
+        insecure_skip_verify: true
+      valid_status_codes: [401, 403, 405]
+  tcp_connect:
+    prober: tcp
+  pop3s_banner:
+    prober: tcp
+    timeout: 30s
+    tcp:
+      query_response:
+        - expect: "^+OK"
+      tls: true
+      tls_config:
+        insecure_skip_verify: true
+  ssh_banner:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: "^SSH-2.0-"

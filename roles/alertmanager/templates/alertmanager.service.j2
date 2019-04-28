@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Alertmanager
+After=network.target
+
+[Service]
+Type=simple
+PIDFile={{ alertmanager_dir }}/alertmanager.pid
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart={{ alertmanager_dir }}/alertmanager --config.file={{ alertmanager_dir }}/alertmanager.yml
+
+SyslogIdentifier=prometheus-alertmanager
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

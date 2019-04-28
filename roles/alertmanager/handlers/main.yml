@@ -1,0 +1,8 @@
+- name: restart alertmanager
+  service: name=alertmanager state=restarted
+
+- name: reload alertmanager
+  service: name=alertmanager state=reloaded
+
+- name: stop alertmanager
+  service: name=alertmanager state=stopped

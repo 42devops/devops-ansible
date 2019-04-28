@@ -1,0 +1,8 @@
+alertmanager_version: 0.16.1
+alertmanager_needto_install: true
+alertmanager_use_service: true
+alertmanager_dir: /opt/dss/prom
+alertmanager_bin_path: "{{ alertmanager_dir }}/alertmanager"
+alertmanager_data_path: "{{ alertmanager_dir }}/data"
+alertmanager_config_file: "{{ alertmanager_dir }}/alertmanager.yml"
+alertmanager_port: 9093

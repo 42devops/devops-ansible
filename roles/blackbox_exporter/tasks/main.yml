@@ -1,0 +1,10 @@
+---
+
+- name: ensure the promtheus dir
+  file: path={{ blackbox_exporter_root_dir }} state=directory mode=0755
+
+- include: install.yml
+  when: blackbox_exporter_needto_install
+
+- name: chcking the black_exporter service port health
+  wait_for: host=localhost port={{ blackbox_exporter_ports }} timeout=5

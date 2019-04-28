@@ -1,0 +1,18 @@
+------------------------------------------------------------------------------
+Welcome to {{ environments }} ENVIRONMENT~~
+
+ENVIRONMENT:   {{ environments }}
+Machine ID:   {{ ansible_fqdn }}
+HOSTNAME:     {{ ansible_hostname }}
+IP:            {{ ansible_all_ipv4_addresses }}
+
+OS:            {{ ansible_distribution }} {{ ansible_distribution_release }} {{ ansible_distribution_version }}
+Kernel:        {{ ansible_kernel }}
+Memory:        {{ ansible_memtotal_mb }} MB
+CPU:           {{ ansible_processor_cores }} x {{ ansible_userspace_architecture }}
+
+
+Container Runtime: UNKNOW
+
+The Group for this node: {{ group_names }}
+

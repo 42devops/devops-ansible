@@ -1,0 +1,17 @@
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+Requires=network-online.target
+After=network.target network-online.target multi-user.target
+
+[Service]
+ExecStart={{ prometheus_bin_path }} \
+           --config.file={{ prometheus_config_file }} \
+           --storage.tsdb.retention.time=30d \
+           --storage.tsdb.path={{ prometheus_data_path }}
+ExecReload=/usr/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

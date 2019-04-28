@@ -1,0 +1,20 @@
+[Unit]
+Description=Prometheus node exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=local-fs.target network-online.target network.target
+Wants=local-fs.target network-online.target network.target
+
+[Service]
+Type=simple
+ExecStart={{ node_exporter_bin }} {% if supervisord is defined %} \
+  --collector.supervisord \
+{% endif %}
+  --web.listen-address ":{{ node_exporter_ports}}"{% if systemd_services is defined %} \
+  --collector.systemd \
+  --collector.systemd.unit-whitelist "{{ ( systemd_services|length > 1) | ternary('(','') }}{{ systemd_services | join("|") }}{{ ( systemd_services|length > 1) | ternary(')','') }}.service" \
+{% endif %}
+  --collector.filesystem.ignored-mount-points="^/(dev|proc|sys|run/docker/netns|var/lib/kubelet|var/lib/rancher)($|/)" \
+  --collector.filesystem.ignored-fs-types="^(tmpfs|autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+*.retry
+*.pyc
+*.zip
+test.yml
+vars/*.yml
+package
+.vagrant
+script/binaries
+*.tar.gz
+*.retry
+.kitchen

@@ -1,0 +1,11 @@
+---
+- name: ensure the node exporter dir
+  file: path={{ node_exporter_bin | dirname }} state=directory mode=0755
+
+- name: download node_exporter package
+  unarchive: src="files/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz" dest="/tmp"
+
+- name: copy the node_exporter to dir
+  copy: src=/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter dest={{ node_exporter_bin }} mode="a+x" remote_src=yes
+
+

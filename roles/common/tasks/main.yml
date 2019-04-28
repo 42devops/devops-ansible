@@ -1,0 +1,5 @@
+- name: install iproute
+  package: name=iproute state=present
+
+- name: config VMs motd
+  template: src=motd.j2 dest=/etc/motd

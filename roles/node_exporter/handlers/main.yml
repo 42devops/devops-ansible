@@ -1,0 +1,9 @@
+---
+- name: restart node_exporter
+  service: name=node_exporter state=restarted
+
+- name: reload node_exporter
+  service: name=node_exporter state=reloaded
+
+- name: stop node_exporter
+  service: name=node_exporter state=stopped

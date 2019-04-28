@@ -1,0 +1,9 @@
+---
+prometheus_version: 2.7.1
+prometheus_needto_install: true
+prometheus_use_service: true
+prometheus_dir: /opt/dss/prom
+prometheus_bin_path: "{{ prometheus_dir }}/prometheus"
+prometheus_data_path: "{{ prometheus_dir }}/data"
+prometheus_config_file: "{{ prometheus_dir }}/prometheus.yml"
+prometheus_port: 9090

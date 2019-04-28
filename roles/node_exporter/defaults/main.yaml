@@ -1,0 +1,6 @@
+---
+node_exporter_needto_install: True
+
+node_exporter_version: 0.17.0
+node_exporter_bin: /usr/sbin/node_exporter
+node_exporter_ports: 9100

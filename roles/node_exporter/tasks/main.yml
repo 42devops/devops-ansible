@@ -1,0 +1,13 @@
+---
+- include: install.yml
+  when: node_exporter_needto_install
+
+- name: create node_exporter systemd file
+  template: src=node_exporter.service.j2 dest=/etc/systemd/system/node_exporter.service
+  notify: restart node_exporter
+
+- name: start node_exporter service
+  systemd: state=started daemon_reload=yes name=node_exporter enabled=yes
+
+- name: chcking the node_exporter service port health
+  wait_for: host=localhost port={{ node_exporter_ports }} timeout=5

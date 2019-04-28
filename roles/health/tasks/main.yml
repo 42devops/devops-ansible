@@ -1,0 +1,13 @@
+---
+- name: chcking the all service port health
+  wait_for: host=localhost port={{ item.value.port }} timeout=5
+  with_dict: "{{ health_check }}"
+  when: health_check is defined
+
+- name: checking the app health url
+  uri:
+    url: http://localhost:{{ item.value.port }}{{ item.value.url }}
+    return_content: yes
+    status_code: 200, 503
+  with_dict: "{{ health_check }}"
+  when: health_check is defined and app_check is defined

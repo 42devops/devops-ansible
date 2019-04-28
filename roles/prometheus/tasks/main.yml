@@ -1,0 +1,13 @@
+---
+- include: install.yml
+  when: prometheus_needto_install
+
+- name: ensure prometheus service is enabled
+  systemd:
+    name: prometheus
+    daemon_reload: true
+    enabled: true
+    state: started
+
+- name: checking the prometheus service port health
+  wait_for: host=localhost port={{ prometheus_port }} timeout=5

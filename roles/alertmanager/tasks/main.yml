@@ -1,0 +1,27 @@
+---
+- name: ensure the promtheus dir
+  file: path={{ alertmanager_dir }} state=directory mode=0755
+
+- name: download alertmanager package
+  unarchive: src="files/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz" dest="/tmp"
+
+- name: copy the alertmanager to dir
+  copy: src=/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64/alertmanager dest={{ alertmanager_bin_path }} mode="a+x" remote_src=yes
+
+- name: add alertmanager config file
+  copy: src=alertmanager.yml dest={{ alertmanager_config_file }}
+  notify: restart alertmanager
+
+- name: create alertmanager systemd file
+  template: src=alertmanager.service.j2 dest=/etc/systemd/system/alertmanager.service
+  notify: restart alertmanager
+
+- name: ensure alertmanager service is enabled
+  systemd:
+    name: alertmanager
+    daemon_reload: true
+    enabled: true
+    state: started
+
+- name: checking the alertmanager service port health
+  wait_for: host=localhost port={{ alertmanager_port }} timeout=5

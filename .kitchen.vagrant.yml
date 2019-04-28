@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  hosts: all
+  name: ansible_playbook
+  require_ansible_repo: true
+  ansible_yum_repo: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_verbosity: 2
+  ansible_verbose: true
+  # starting playbook is at: test/integration/default/default.yml
+
+transport:
+  max_ssh_sessions: 5
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: bento/centos-7.5
+
+suites:
+  - name: default
